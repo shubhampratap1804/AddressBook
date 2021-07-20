@@ -52,7 +52,7 @@ public class AddressBook {
 				
 				//Method to edit a contact
 				
-				public static void editContacts() {
+				static void editContacts() {
 					 Scanner scan = new Scanner(System.in);
 					 System.out.println("Enter first name: ");
 					 String firstName = scan.next();
@@ -126,12 +126,33 @@ public class AddressBook {
 						 }
 					 }
 				 }
+				
+				//Method to delete a contact
+				
+				static void deleteContact() {
+					System.out.println("Enter first name of the contact you want to delete: ");
+					Scanner scan = new Scanner(System.in);
+					String firstName = scan.next();
+					
+					for(int i=0; i<contactList.size(); i++) {
+						Person person = contactList.get(i);
+						
+						if(firstName.equals(person.getFirstName())) {
+							contactList.remove(person);
+						} else {
+							System.out.println("First name not found!");
+						}
+					}
+				}
+				
+				
 				//Main method
 				public static void main(String[] args) {
 					System.out.println("Welcome to address book program!");
 					//Asking user want function he/she wants to perform
 					
-					System.out.println("What you wanna do? \n"+"Enter 1 to add a contact: \n"+"Enter 2 to edit a contact:");
+					System.out.println("What you wanna do? \n"+"Enter 1 to add a contact: \n"+"Enter 2 to edit a contact: \n"+
+											"Enter 3 to delete a contact:");
 					Scanner scan = new Scanner(System.in);
 					int optionSelected = scan.nextInt();
 					
@@ -145,8 +166,12 @@ public class AddressBook {
 						editContacts();
 						break;
 						
+					case 3:
+						deleteContact();
+						break;
+						
 					default: 
-					System.out.println("Enter 1 or 2: ");		
+					System.out.println("Enter 1, 2 or 3: ");		
 					break;
 					
 					}
