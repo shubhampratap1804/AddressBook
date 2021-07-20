@@ -89,9 +89,4 @@ public class Person {
 						+ city + ", state=" + state + ", zip=" + zip + ", phoneNumber=" + phoneNumber + ", email="
 						+ email + "]";
 			}
-
-			//Main method
-			public static void main(String[] args) {
-				System.out.println("Welcome to address book program!");
-			}
 		}
