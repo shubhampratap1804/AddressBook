@@ -6,6 +6,7 @@ import java.util.Scanner;
 
 public class AddressBook {
 
+			static List<NewAddressBook> addressBookList = new ArrayList<>();
 			static List<Person> contactList = new ArrayList<>();
 			//Method to add a new contact	
 			
@@ -149,6 +150,20 @@ public class AddressBook {
 							System.out.println("First name not found!");
 						}
 					}
+				}
+				
+				//Method to create a new address book
+				
+				static void newAddressBook() {
+					
+					System.out.println("Enter name of the new address book:");
+					Scanner scan = new Scanner(System.in);
+					String newAddressBookName = scan.next();
+					
+					NewAddressBook addressBook = new NewAddressBook(newAddressBookName);
+					addressBookList.add(addressBook);
+					
+					System.out.println(addressBook.toString());
 				}
 				
 				
