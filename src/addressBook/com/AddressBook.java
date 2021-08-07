@@ -12,8 +12,9 @@ public class AddressBook {
 
 
 	static List<Person> contactList = new ArrayList<>();
+	static Map<String, Person> myAddressBookMap = new HashMap<String, Person>();
+	
 	// Method to add a new contact
-
 	static void addContacts() {
 		Scanner scan = new Scanner(System.in);
 
@@ -149,7 +150,7 @@ public class AddressBook {
 	// Method to create a new address book
 	static void newAddressBook() {
 
-		Map<String, Person> myAddressBookMap = new HashMap<String, Person>();
+		
 		Scanner scan = new Scanner(System.in);
 		// Asking user how many address book you want to add?
 		System.out.println("Enter how many address book you want to add?");
@@ -224,6 +225,21 @@ public class AddressBook {
 			} else System.out.println("Person with same first name not found!");
 		}
 	}
+	
+	/*Method to search person by city or state using for each loop*/
+	static void searchPersonByCityOrState() {
+		Scanner scanner = new Scanner(System.in);
+		System.out.println("Enter city in which you want to find:");
+		String city = scanner.next();
+		System.out.println("Enter state in which you want to find:");
+		String state = scanner.next();
+	
+		for(Person person : contactList) {
+			if(city.equals(person.getCity()) || state.equals(person.getState())){
+				System.out.println(person);
+			}
+		}
+	}
 
 	// Main method to call all methods created using switch statement
 	public static void main(String[] args) {
@@ -235,7 +251,7 @@ public class AddressBook {
 			System.out
 					.println("What you wanna do? \n" + "Enter 1 to add a contact: \n" + "Enter 2 to edit a contact: \n"
 							+ "Enter 3 to delete a contact: \n" + "Enter 4 to add a new address book: \n"+
-							"Enter 5 to check for duplicate contacts:");
+							"Enter 5 to check for duplicate contacts: \n"+" Enter 6 to search person by city or state:");
 
 			Scanner scan = new Scanner(System.in);
 			int optionSelected = scan.nextInt();
@@ -244,23 +260,23 @@ public class AddressBook {
 			case 1:
 				addContacts();
 				break;
-
 			case 2:
 				editContacts();
 				break;
-
 			case 3:
 				deleteContact();
 				break;
-
 			case 4:
 				newAddressBook();
 				break;
 			case 5:
 				avoidDuplicateContacts();
-				break; 
+				break;
+			case 6:
+				searchPersonByCityOrState();
+				break;				
 			default:
-				System.out.println("Enter 1, 2, 3, 4 or 5: ");
+				System.out.println("Enter 1, 2, 3, 4, 5 or 6: ");
 				break;
 			}
 		}
