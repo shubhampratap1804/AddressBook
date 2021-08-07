@@ -20,6 +20,5 @@ public class NewAddressBook {
 	public String toString() {
 		return "NewAddressBook [addressBookName=" + addressBookName + "]";
 	}
-	
-	
+
 }
