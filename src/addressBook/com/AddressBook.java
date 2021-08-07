@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Scanner;
 import java.util.Set;
+import java.util.Map.Entry;
 
 public class AddressBook {
 
@@ -40,7 +41,7 @@ public class AddressBook {
 			String city = scan.next();
 			person.setCity(city);
 
-			System.out.println("Enter state ");
+			System.out.println("Enter state: ");
 			String state = scan.next();
 			person.setState(state);
 
@@ -186,7 +187,7 @@ public class AddressBook {
 				String city = scanner1.next();
 				person.setCity(city);
 
-				System.out.println("Enter state ");
+				System.out.println("Enter state: ");
 				String state = scanner1.next();
 				person.setState(state);
 
@@ -240,6 +241,21 @@ public class AddressBook {
 			}
 		}
 	}
+	
+	/* Method to get mobile number of a person by city or state*/
+	static void getMobileNumberByCityOrState() {
+		Scanner scanner = new Scanner(System.in);
+		System.out.println("Enter city to get the mobile number:");
+		String city = scanner .next();
+		System.out.println("Enter state to get mobile number:");
+		String state = scanner .next();
+		
+		for(Person person : contactList) {
+			if(city.equals(person.getCity()) || state.equals(person.getState())){
+				System.out.println("Mobile number of the people are: "+person.getPhoneNumber());
+			}
+		}
+	}
 
 	// Main method to call all methods created using switch statement
 	public static void main(String[] args) {
@@ -249,9 +265,10 @@ public class AddressBook {
 		boolean choice = true;
 		while (choice) {
 			System.out
-					.println("What you wanna do? \n" + "Enter 1 to add a contact: \n" + "Enter 2 to edit a contact: \n"
-							+ "Enter 3 to delete a contact: \n" + "Enter 4 to add a new address book: \n"+
-							"Enter 5 to check for duplicate contacts: \n"+" Enter 6 to search person by city or state:");
+					.println("What you wanna do? \n" + "Enter 1 to add a contact: \n" + "Enter 2 to edit a contact: \n"+ 
+								"Enter 3 to delete a contact: \n" + "Enter 4 to add a new address book: \n"+
+									"Enter 5 to check for duplicate contacts: \n"+ "Enter 6 to search person by city or state: \n"+
+										"Enter 7 to get mobile number of people by city or state:");
 
 			Scanner scan = new Scanner(System.in);
 			int optionSelected = scan.nextInt();
@@ -274,9 +291,12 @@ public class AddressBook {
 				break;
 			case 6:
 				searchPersonByCityOrState();
-				break;				
+				break;
+			case 7:
+				getMobileNumberByCityOrState();
+				break;
 			default:
-				System.out.println("Enter 1, 2, 3, 4, 5 or 6: ");
+				System.out.println("Enter 1, 2, 3, 4, 5, 6 or 7: ");
 				break;
 			}
 		}
