@@ -1,6 +1,7 @@
 package addressBook.com;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -254,6 +255,20 @@ public class AddressBook {
 			if(city.equals(person.getCity()) || state.equals(person.getState())){
 				System.out.println("Mobile number of the people are: "+person.getPhoneNumber());
 			}
+		}
+	}
+	
+	/*Method to sort every person in the contact-list alphabetically
+	 	using java streams*/
+	static void sortContactAlphabetically() {
+		for(Person person : contactList){
+			System.out.println(person.getFirstName());
+		}
+		
+		contactList.stream();
+		contactList.sort(Comparator.comparing(Person :: getFirstName));
+		for(Person person : contactList) {
+			System.out.println(person.getFirstName());
 		}
 	}
 
