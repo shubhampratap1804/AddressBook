@@ -264,12 +264,31 @@ public class AddressBook {
 		for(Person person : contactList){
 			System.out.println(person.getFirstName());
 		}
-		
 		contactList.stream();
 		contactList.sort(Comparator.comparing(Person :: getFirstName));
-		for(Person person : contactList) {
-			System.out.println(person.getFirstName());
+		contactList.forEach((Person person) -> System.out.println(person.getFirstName() +" "+ person.getLastName()));
+	}
+	
+	/*Method to sort every person in the contact-list by city
+	 	using java streams*/
+	static void sortByCity() {
+		for(Person person: contactList) {
+			System.out.println(person.getCity());
 		}
+		contactList.stream();
+		contactList.sort(Comparator.comparing(Person::getCity));
+		contactList.forEach((Person person) -> System.out.println(person.getFirstName() + " " +person.getLastName()));
+	}
+	
+	/*Method to sort every person on the contact-list by Zip-code 
+	  using java streams*/
+	static void sortByZip() {
+		for(Person person: contactList) {
+			System.out.println(person.getZip());
+		}
+		contactList.stream();
+		contactList.sort(Comparator.comparing(Person :: getZip));
+		contactList.forEach((Person person) -> System.out.println(person.getFirstName() + " " + person.getLastName()));
 	}
 
 	// Main method to call all methods created using switch statement
@@ -283,8 +302,10 @@ public class AddressBook {
 					.println("What you wanna do? \n" + "Enter 1 to add a contact: \n" + "Enter 2 to edit a contact: \n"+ 
 								"Enter 3 to delete a contact: \n" + "Enter 4 to add a new address book: \n"+
 									"Enter 5 to check for duplicate contacts: \n"+ "Enter 6 to search person by city or state: \n"+
-										"Enter 7 to get mobile number of people by city or state:");
-
+										"Enter 7 to get mobile number of people by city or state: \n"+"Enter 8 to sort every person in the "
+												+ "contactlist alphabetically \n" + "Enter 9 to sort every person by city \n"+
+													"Enter 10 to sort every person in contact list by zipcode");
+			
 			Scanner scan = new Scanner(System.in);
 			int optionSelected = scan.nextInt();
 
@@ -310,8 +331,17 @@ public class AddressBook {
 			case 7:
 				getMobileNumberByCityOrState();
 				break;
+			case 8:
+				sortContactAlphabetically();
+				break;
+			case 9:
+				sortByCity();
+				break;
+			case 10:
+				sortByZip();
+				break;
 			default:
-				System.out.println("Enter 1, 2, 3, 4, 5, 6 or 7: ");
+				System.out.println("Enter 1, 2, 3, 4, 5, 6, 7, 8, 9 or 10: ");
 				break;
 			}
 		}
