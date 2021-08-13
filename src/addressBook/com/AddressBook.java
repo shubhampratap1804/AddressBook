@@ -1,5 +1,7 @@
 package addressBook.com;
 
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.HashMap;
@@ -12,10 +14,9 @@ import java.util.Map.Entry;
 
 public class AddressBook {
 
-
 	static List<Person> contactList = new ArrayList<>();
 	static Map<String, Person> myAddressBookMap = new HashMap<String, Person>();
-	
+
 	// Method to add a new contact
 	static void addContacts() {
 		Scanner scan = new Scanner(System.in);
@@ -57,8 +58,43 @@ public class AddressBook {
 			System.out.println("Enter email: ");
 			String email = scan.next();
 			person.setEmail(email);
-			contactList.add(person);
-
+			String COMMA_DELIMITER = ",";
+			String NEW_LINE_SEPARATOR = "\n";
+			String FILE_HEADER = "First Name,Last Name,Address,City,State,Phone Number,Zip";
+			FileWriter fileWriter = null;
+			try {
+				contactList.add(person);
+				fileWriter = new FileWriter("D:\\AddressBook.csv", true);
+				fileWriter.append(FILE_HEADER);
+				for (Person p : contactList) {
+					fileWriter.append(NEW_LINE_SEPARATOR);
+					fileWriter.append(person.getFirstName());
+					fileWriter.append(COMMA_DELIMITER);
+					fileWriter.append(person.getLastName());
+					fileWriter.append(COMMA_DELIMITER);
+					fileWriter.append(person.getAddress());
+					fileWriter.append(COMMA_DELIMITER);
+					fileWriter.append(person.getCity());
+					fileWriter.append(COMMA_DELIMITER);
+					fileWriter.append(person.getState());
+					fileWriter.append(COMMA_DELIMITER);
+					fileWriter.append(String.valueOf(person.getPhoneNumber()));
+					fileWriter.append(COMMA_DELIMITER);
+					fileWriter.append(String.valueOf(person.getZip()));
+				}
+				System.out.println("Write CSV successfully!");
+			} catch (Exception e) {
+				System.out.println("Writing CSV error!");
+				e.printStackTrace();
+			} finally {
+				try {
+					fileWriter.flush();
+					fileWriter.close();
+				} catch (IOException e) {
+					System.out.println("Flushing/closing error!");
+					e.printStackTrace();
+				}
+			}
 		}
 		System.out.println(contactList);
 	}
@@ -152,7 +188,6 @@ public class AddressBook {
 	// Method to create a new address book
 	static void newAddressBook() {
 
-		
 		Scanner scan = new Scanner(System.in);
 		// Asking user how many address book you want to add?
 		System.out.println("Enter how many address book you want to add?");
@@ -161,9 +196,9 @@ public class AddressBook {
 		for (int i = 0; i < option; i++) {
 			System.out.println("Enter name of the new address book:");
 			Scanner scanner = new Scanner(System.in);
-			String newAddressBookName = scanner.next();	
+			String newAddressBookName = scanner.next();
 			NewAddressBook addressBook = new NewAddressBook(newAddressBookName);
-			
+
 			Scanner scanner1 = new Scanner(System.in);
 
 			System.out.println("How many person you want to add?");
@@ -207,87 +242,94 @@ public class AddressBook {
 				myAddressBookMap.put(newAddressBookName, person);
 			}
 		}
-		
+
 		// Displaying all added address book details
-		Set<Map.Entry<String,Person>> entries = myAddressBookMap.entrySet();
-		for(Map.Entry<String, Person> emp : entries) {
+		Set<Map.Entry<String, Person>> entries = myAddressBookMap.entrySet();
+		for (Map.Entry<String, Person> emp : entries) {
 			System.out.println(emp.getKey());
 			Person person = emp.getValue();
 			person.display();
 		}
 	}
-	/* Method checking for the duplicate contacts from the contact list*/
+
+	/* Method checking for the duplicate contacts from the contact list */
 	static void avoidDuplicateContacts() {
 		Scanner scan = new Scanner(System.in);
 		System.out.println("Enter name which you want to find!");
 		String myFirstName = scan.next();
-		for(Person person : contactList) {
-			if(myFirstName.equals(person.getFirstName())){
+		for (Person person : contactList) {
+			if (myFirstName.equals(person.getFirstName())) {
 				System.out.println("Person with same first name found!");
-			} else System.out.println("Person with same first name not found!");
+			} else
+				System.out.println("Person with same first name not found!");
 		}
 	}
-	
-	/*Method to search person by city or state using for each loop*/
+
+	/* Method to search person by city or state using for each loop */
 	static void searchPersonByCityOrState() {
 		Scanner scanner = new Scanner(System.in);
 		System.out.println("Enter city in which you want to find:");
 		String city = scanner.next();
 		System.out.println("Enter state in which you want to find:");
 		String state = scanner.next();
-	
-		for(Person person : contactList) {
-			if(city.equals(person.getCity()) || state.equals(person.getState())){
+
+		for (Person person : contactList) {
+			if (city.equals(person.getCity()) || state.equals(person.getState())) {
 				System.out.println(person);
 			}
 		}
 	}
-	
-	/* Method to get mobile number of a person by city or state*/
+
+	/* Method to get mobile number of a person by city or state */
 	static void getMobileNumberByCityOrState() {
 		Scanner scanner = new Scanner(System.in);
 		System.out.println("Enter city to get the mobile number:");
-		String city = scanner .next();
+		String city = scanner.next();
 		System.out.println("Enter state to get mobile number:");
-		String state = scanner .next();
-		
-		for(Person person : contactList) {
-			if(city.equals(person.getCity()) || state.equals(person.getState())){
-				System.out.println("Mobile number of the people are: "+person.getPhoneNumber());
+		String state = scanner.next();
+
+		for (Person person : contactList) {
+			if (city.equals(person.getCity()) || state.equals(person.getState())) {
+				System.out.println("Mobile number of the people are: " + person.getPhoneNumber());
 			}
 		}
 	}
-	
-	/*Method to sort every person in the contact-list alphabetically
-	 	using java streams*/
+
+	/*
+	 * Method to sort every person in the contact-list alphabetically using java
+	 * streams
+	 */
 	static void sortContactAlphabetically() {
-		for(Person person : contactList){
+		for (Person person : contactList) {
 			System.out.println(person.getFirstName());
 		}
 		contactList.stream();
-		contactList.sort(Comparator.comparing(Person :: getFirstName));
-		contactList.forEach((Person person) -> System.out.println(person.getFirstName() +" "+ person.getLastName()));
+		contactList.sort(Comparator.comparing(Person::getFirstName));
+		contactList.forEach((Person person) -> System.out.println(person.getFirstName() + " " + person.getLastName()));
 	}
-	
-	/*Method to sort every person in the contact-list by city
-	 	using java streams*/
+
+	/*
+	 * Method to sort every person in the contact-list by city using java streams
+	 */
 	static void sortByCity() {
-		for(Person person: contactList) {
+		for (Person person : contactList) {
 			System.out.println(person.getCity());
 		}
 		contactList.stream();
 		contactList.sort(Comparator.comparing(Person::getCity));
-		contactList.forEach((Person person) -> System.out.println(person.getFirstName() + " " +person.getLastName()));
+		contactList.forEach((Person person) -> System.out.println(person.getFirstName() + " " + person.getLastName()));
 	}
-	
-	/*Method to sort every person on the contact-list by Zip-code 
-	  using java streams*/
+
+	/*
+	 * Method to sort every person on the contact-list by Zip-code using java
+	 * streams
+	 */
 	static void sortByZip() {
-		for(Person person: contactList) {
+		for (Person person : contactList) {
 			System.out.println(person.getZip());
 		}
 		contactList.stream();
-		contactList.sort(Comparator.comparing(Person :: getZip));
+		contactList.sort(Comparator.comparing(Person::getZip));
 		contactList.forEach((Person person) -> System.out.println(person.getFirstName() + " " + person.getLastName()));
 	}
 
@@ -298,14 +340,15 @@ public class AddressBook {
 
 		boolean choice = true;
 		while (choice) {
-			System.out
-					.println("What you wanna do? \n" + "Enter 1 to add a contact: \n" + "Enter 2 to edit a contact: \n"+ 
-								"Enter 3 to delete a contact: \n" + "Enter 4 to add a new address book: \n"+
-									"Enter 5 to check for duplicate contacts: \n"+ "Enter 6 to search person by city or state: \n"+
-										"Enter 7 to get mobile number of people by city or state: \n"+"Enter 8 to sort every person in the "
-												+ "contactlist alphabetically \n" + "Enter 9 to sort every person by city \n"+
-													"Enter 10 to sort every person in contact list by zipcode");
-			
+			System.out.println("What you wanna do? \n" + "Enter 1 to add a contact: \n"
+					+ "Enter 2 to edit a contact: \n" + "Enter 3 to delete a contact: \n"
+					+ "Enter 4 to add a new address book: \n" + "Enter 5 to check for duplicate contacts: \n"
+					+ "Enter 6 to search person by city or state: \n"
+					+ "Enter 7 to get mobile number of people by city or state: \n"
+					+ "Enter 8 to sort every person in the " + "contactlist alphabetically \n"
+					+ "Enter 9 to sort every person by city \n"
+					+ "Enter 10 to sort every person in contact list by zipcode");
+
 			Scanner scan = new Scanner(System.in);
 			int optionSelected = scan.nextInt();
 
