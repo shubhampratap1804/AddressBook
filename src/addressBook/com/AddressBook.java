@@ -1,7 +1,14 @@
 package addressBook.com;
 
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.PrintWriter;
+import java.io.Writer;
+import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.HashMap;
@@ -12,13 +19,14 @@ import java.util.Scanner;
 import java.util.Set;
 import java.util.Map.Entry;
 
+
 public class AddressBook {
 
 	static List<Person> contactList = new ArrayList<>();
 	static Map<String, Person> myAddressBookMap = new HashMap<String, Person>();
 
 	// Method to add a new contact
-	static void addContacts() {
+	static void addContacts() throws Exception{
 		Scanner scan = new Scanner(System.in);
 
 		System.out.println("How many person you want to add?");
@@ -62,7 +70,8 @@ public class AddressBook {
 			String NEW_LINE_SEPARATOR = "\n";
 			String FILE_HEADER = "First Name,Last Name,Address,City,State,Phone Number,Zip";
 			FileWriter fileWriter = null;
-			try {
+			
+			try{
 				contactList.add(person);
 				fileWriter = new FileWriter("D:\\AddressBook.csv", true);
 				fileWriter.append(FILE_HEADER);
@@ -78,11 +87,14 @@ public class AddressBook {
 					fileWriter.append(COMMA_DELIMITER);
 					fileWriter.append(person.getState());
 					fileWriter.append(COMMA_DELIMITER);
-					fileWriter.append(String.valueOf(person.getPhoneNumber()));
+					fileWriter.append(person.getZip());
 					fileWriter.append(COMMA_DELIMITER);
-					fileWriter.append(String.valueOf(person.getZip()));
+					fileWriter.append(person.getPhoneNumber());
+					fileWriter.append(COMMA_DELIMITER);
+					fileWriter.append(person.getEmail());
+					
 				}
-				System.out.println("Write CSV successfully!");
+				System.out.println("Wrote CSV successfully!");
 			} catch (Exception e) {
 				System.out.println("Writing CSV error!");
 				e.printStackTrace();
@@ -91,7 +103,7 @@ public class AddressBook {
 					fileWriter.flush();
 					fileWriter.close();
 				} catch (IOException e) {
-					System.out.println("Flushing/closing error!");
+					System.out.println("Closing error!");
 					e.printStackTrace();
 				}
 			}
@@ -332,9 +344,31 @@ public class AddressBook {
 		contactList.sort(Comparator.comparing(Person::getZip));
 		contactList.forEach((Person person) -> System.out.println(person.getFirstName() + " " + person.getLastName()));
 	}
+	
+	public static void readCSVFile() throws Exception {
+		String file = "C:\\Users\\prata\\AddressBook\\resources\\AddressBook.csv";
+		BufferedReader reader = null;
+		String line = "";
+		try {
+			reader = new BufferedReader(new FileReader(file));
+			while((line = reader.readLine())!=null) {
+				String [] person = line.split(",");
+				System.out.println("Peson[First Name=" + person[0] +",Last Name ="+person[1]+",Address ="+person[2]+", City ="+person[3]+
+						", State ="+person[4]+ ", ZipCode ="+person[5] +", Phone Number ="+person[6]+ ", E=mail= "+person[7]+"]");
+			}
+		} catch(Exception e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				reader.close();
+			} catch(IOException e) {
+				e.printStackTrace();
+			}
+		}
+	}
 
 	// Main method to call all methods created using switch statement
-	public static void main(String[] args) {
+	public static void main(String[] args) throws Exception {
 		System.out.println("Welcome to address book program!");
 		// Asking user want function he/she wants to perform
 
@@ -347,7 +381,8 @@ public class AddressBook {
 					+ "Enter 7 to get mobile number of people by city or state: \n"
 					+ "Enter 8 to sort every person in the " + "contactlist alphabetically \n"
 					+ "Enter 9 to sort every person by city \n"
-					+ "Enter 10 to sort every person in contact list by zipcode");
+					+ "Enter 10 to sort every person in contact list by zipcode"
+					+ "Enter 11 to read csv file");
 
 			Scanner scan = new Scanner(System.in);
 			int optionSelected = scan.nextInt();
@@ -383,8 +418,10 @@ public class AddressBook {
 			case 10:
 				sortByZip();
 				break;
+			case 11:
+				readCSVFile();
 			default:
-				System.out.println("Enter 1, 2, 3, 4, 5, 6, 7, 8, 9 or 10: ");
+				System.out.println("Enter 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 or 11: ");
 				break;
 			}
 		}

@@ -13,6 +13,22 @@ public class Person {
 	String phoneNumber;
 	String email;
 
+	
+	public Person(String firstName, String lastName, String address, String city, String state, String zip,
+			String phoneNumber, String email) {
+		this.firstName = firstName;
+		this.lastName = lastName;
+		this.address = address;
+		this.city = city;
+		this.state = state;
+		this.zip = zip;
+		this.phoneNumber = phoneNumber;
+		this.email = email;
+	}
+	
+	public Person() {
+	}
+
 	// Generated getters and setters for each instance variable
 
 	public String getFirstName() {
