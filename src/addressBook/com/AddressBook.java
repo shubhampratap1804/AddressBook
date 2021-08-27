@@ -22,8 +22,9 @@ import java.util.Map.Entry;
 
 public class AddressBook {
 
-	static List<Person> contactList = new ArrayList<>();
 	static Map<String, Person> myAddressBookMap = new HashMap<String, Person>();
+	static List<Person> contactList = new ArrayList<>();
+	
 
 	// Method to add a new contact
 	static void addContacts() throws Exception{
